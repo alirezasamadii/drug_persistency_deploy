@@ -3,6 +3,7 @@ from flask import Flask, request,render_template
 import pickle
 import pandas as pd
 from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.svm import SVC
 
 app = Flask(__name__)
 model = pickle.load(open('drug_svc_model.sav', 'rb'))
