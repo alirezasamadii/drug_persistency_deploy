@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>ML API</title>
+  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  
+</head>
+
+<body>
+ <div class="login">
+	<h1>Predict the drug persistncy</h1>
+  								
+     <!-- Main Input For Receiving Query to our ML -->
+    <form action="{{ url_for('predict')}}"method="post">
+
+      <label for="Gender">Chose gender:</label>
+      <select name="Gender" id="Gender">
+      <option value="1">Male</option>
+      <option value="0">Female</option>
+    </select>
+    <br>
+    <label for="Race">Chose chose race:</label>
+    <select name="Race" id="Race">
+    <option value="0">Caucasian</option>
+    <option value="1">Asian</option>
+    <option value="2">Other/Unknown</option>
+    <option value="3">African American</option>
+  </select>
+  <br>
+
+      <label for="Ethnicity">chose  ethnicity:</label>
+      <select name="Ethnicity" id="Ethnicity">
+      <option value="0">Not Hispanic</option>
+      <option value="1">Hispanic</option>
+      <option value="2">Unknown</option>
+    </select>
+    <br>
+
+    <label for="Region">chose region:</label>
+    <select name="Region" id="Region">
+    <option value="1">Midwest</option>
+    <option value="2">South</option>
+    <option value="3">Other/Unknown</option>
+    <option value="4">Northeast</option>
+    <option value="0">West</option>
+ 
+  </select>
+  <br>
+
+    <label for="Age_Bucket">chose  Age_Bucket :</label>
+    <select name="Age_Bucket" id="Age_Bucket">
+    <option value="1">55-65</option>
+    <option value="2">65-75</option>
+    <option value="3"> less than 55 </option>
+    <option value="0"> greater than 75 </option>
+  </select>
+  <br>
+
+  
+    <label for="Ntm_Speciality">chose Ntm_Speciality:</label>
+    <select name="Ntm_Speciality" id="Ntm_Speciality">
+    <option value="0">GENERAL PRACTITIONER</option>
+    <option value="1">Unknown</option>
+    <option value="2">ENDOCRINOLOGY</option>
+    <option value="3">RHEUMATOLOGY</option>
+    <option value="4">ONCOLOGY</option>
+    <option value="5">PATHOLOGY</option>
+    <option value="6">OBSTETRICS AND GYNECOLOGY</option>
+    <option value="7">PSYCHIATRY AND NEUROLOGY</option>
+    <option value="8">ORTHOPEDIC SURGERY</option>
+    <option value="9">PHYSICAL MEDICINE AND REHABILITATION</option>
+    <option value="10">SURGERY AND SURGICAL SPECIALTIES</option>
+    <option value="11">PEDIATRICS</option>
+    <option value="12">PULMONARY MEDICINE</option>
+    <option value="13">HEMATOLOGY & ONCOLOGY</option>
+    <option value="14">UROLOGY</option>
+    <option value="15">PAIN MEDICINE</option>
+    <option value="16">NEUROLOGY</option>
+    <option value="17">RADIOLOGY</option>
+    <option value="18">GASTROENTEROLOGY</option>
+    <option value="19">EMERGENCY MEDICINE</option>
+    <option value="20">PODIATRY</option>
+    <option value="21">OPHTHALMOLOGY</option>
+    <option value="22">OCCUPATIONAL MEDICINE</option>
+    <option value="23">TRANSPLANT SURGERY</option>
+    <option value="24">PLASTIC SURGERY</option>
+    <option value="25">CLINICAL NURSE SPECIALIST</option>
+    <option value="26">OTOLARYNGOLOGY</option>
+    <option value="27">HOSPITAL MEDICINE</option>
+    <option value="28">ORTHOPEDICS</option>
+    <option value="29">NEPHROLOGY</option>
+    <option value="30">GERIATRIC MEDICINE</option>
+    <option value="31">HOSPICE AND PALLIATIVE MEDICINE</option>
+    <option value="32">OBSTETRICS & OBSTETRICS & GYNECOLOGY & OBSTETRICS & GYNECOLOGY</option>
+    <option value="33">'VASCULAR SURGERY</option>
+    <option value="34">CARDIOLOGY</option>
+    <option value="35">NUCLEAR MEDICINE</option>
+    
+  </select>
+  <br>
+
+    <label for="Ntm_Specialist_Flag">chose Ntm_Specialist_Flag:</label>
+    <select name="Ntm_Specialist_Flag" id="Ntm_Specialist_Flag">
+    <option value="1">Specialist</option>
+    <option value="0">Others</option>
+  </select>
+  <br>
+
+    <label for="Ntm_Speciality_Bucket"> chose Ntm_Speciality_Bucket:</label>
+    <select name="Ntm_Speciality_Bucket" id="Ntm_Speciality_Bucket">
+    <option value="1">Endo/Onc/Uro</option>
+    <option value="2">Rheum</option>
+    <option value="0">OB/GYN/Others/PCP/Unknown</option>
+  </select>
+  <br>
+
+    <label for="Gluco_Record_Prior_Ntm">Chose Gluco_Record_Prior_Ntm:</label>
+    <select name="Gluco_Record_Prior_Ntm" id="Gluco_Record_Prior_Ntm">
+    <option value="1">Y</option>
+    <option value="0">N</option>
+
+  </select>
+  <br>
+    <label for="Gluco_Record_During_RX">Chose Gluco_Record_During_RX:</label>
+    <select name="Gluco_Record_During_RX" id="Gluco_Record_During_RX">
+    <option value="1">Y</option>
+    <option value="0">N</option>
+
+  </select>
+  <br>
+    <label for="Dexa_During_Rx">Chose Dexa_During_Rx:</label>
+    <select name="Dexa_During_Rx" id="Dexa_During_Rx">
+    <option value="1">Y</option>
+    <option value="0">N</option>
+
+  </select>
+  <br>
+    <label for="Frag_Frac_Prior_Ntm">Chose Frag_Frac_Prior_Ntm:</label>
+    <select name="Frag_Frac_Prior_Ntm" id="Frag_Frac_Prior_Ntm">
+    <option value="1">Y</option>
+    <option value="0">N</option>
+
+  </select>
+  <br>
+    <label for="Frag_Frac_During_Rx">Chose Frag_Frac_During_Rx:</label>
+    <select name="Frag_Frac_During_Rx" id="Frag_Frac_During_Rx">
+    <option value="1">Y</option>
+    <option value="0">N</option>
+
+  </select>
+  <br>
+    <label for="Risk_Segment_Prior_Ntm_mapping">Chose Risk_Segment_Prior_Ntm_mapping:</label>
+    <select name="Risk_Segment_Prior_Ntm_mapping" id="Risk_Segment_Prior_Ntm_mapping">
+    <option value="1">HR_VHR</option>
+    <option value="0">VLR_LR</option>
+
+  </select>
+  <br>
+    <label for="Tscore_Bucket_Prior_Ntm">Chose Tscore_Bucket_Prior_Ntm:</label>
+    <select name="Tscore_Bucket_Prior_Ntm" id="Tscore_Bucket_Prior_Ntm">
+    <option value="1">LESS OR EQUAL -2.5</option>
+    <option value="0">GREATER THAN -2.5</option>
+
+  </select>
+  <br>
+    <label for="Risk_Segment_During_Rx">Chose Risk_Segment_During_Rx:</label>
+    <select name="Risk_Segment_During_Rx" id="Risk_Segment_During_Rx">
+    <option value="1">Unknown</option>
+    <option value="0">VLR_LR</option>
+    <option value="2">HR_VHR</option>
+
+  </select>
+  <br>
+    <label for="Tscore_Bucket_During_Rx">Chose Tscore_Bucket_During_Rx:</label>
+    <select name="Tscore_Bucket_During_Rx" id="Tscore_Bucket_During_Rx">
+    <option value="1">Unknown</option>
+    <option value="0">EQUAL OR LESS THAN -0.25</option>
+    <option value="2">GRATER THAN -0.25</option>
+
+
+  </select>
+  <br>
+    <label for="Change_T_Score">Chose Change_T_Score:</label>
+    <select name="Change_T_Score" id="Change_T_Score">
+    <option value="0">No change</option>
+    <option value="1">Unknown</option>
+    <option value="2">Worsened</option>
+    <option value="3">Improved</option>
+  
+  </select>
+  <br>
+  <label for="Change_Risk_Segment">Chose Change_Risk_Segment:</label>
+  <select name="Change_Risk_Segment" id="Change_Risk_Segment">
+  <option value="0">No change</option>
+  <option value="1">Unknown</option>
+  <option value="2">Worsened</option>
+  <option value="3">Improved</option>
+
+  </select>
+  <br>
+    <label for="Adherent_Flag">Chose Adherent_Flag:</label>
+    <select name="Adherent_Flag" id="Adherent_Flag">
+    <option value="1">Non-Adherent</option>
+    <option value="0">Adherent</option>
+  
+  </select>
+  <br>    
+    <label for="Idn_Indicator">Chose Idn_Indicator:</label>
+    <select name="Idn_Indicator" id="Idn_Indicator">
+    <option value="1">Y</option>
+    <option value="0">N</option>
+
+</select>
+<br>
+  <label for="Injectable_Experience_During_Rx_RX">Chose Injectable_Experience_During_Rx</label>
+  <select name="Injectable_Experience_During_Rx" id="Injectable_Experience_During_Rx">
+  <option value="1">Y</option>
+  <option value="0">N</option>
+
+</select>
+<br>
+  <label for="Comorb_Encounter_For_Screening_For_Malignant_Neoplasms">Chose Comorb_Encounter_For_Screening_For_Malignant_Neoplasms:</label>
+  <select name="Comorb_Encounter_For_Screening_For_Malignant_Neoplasms" id="Comorb_Encounter_For_Screening_For_Malignant_Neoplasms">
+  <option value="1">Y</option>
+  <option value="0">N</option>
+
+</select>
+<br>
+  <label for="Comorb_Encounter_For_Immunization">Chose Comorb_Encounter_For_Immunization:</label>
+  <select name="Comorb_Encounter_For_Immunization" id="Comorb_Encounter_For_Immunization">
+  <option value="1">Y</option>
+  <option value="0">N</option>
+
+</select>
+<br>
+  <label for="Comorb_Encntr_For_General_Exam_W_O_Complaint_Susp_Or_Reprtd_Dx">Chose Comorb_Encntr_For_General_Exam_W_O_Complaint_Susp_Or_Reprtd_Dx:</label>
+  <select name="Comorb_Encntr_For_General_Exam_W_O_Complaint_Susp_Or_Reprtd_Dx" id="Comorb_Encntr_For_General_Exam_W_O_Complaint_Susp_Or_Reprtd_Dx">
+  <option value="1">Y</option>
+  <option value="0">N</option>
+
+</select>
+<br>
+    
+<label for="Comorb_Vitamin_D_Deficiency">Chose Comorb_Vitamin_D_Deficiency:</label>
+<select name="Comorb_Vitamin_D_Deficiency" id="Comorb_Vitamin_D_Deficiency">
+<option value="1">Y</option>
+<option value="0">N</option>
+
+</select>
+<br>
+<label for="Comorb_Other_Joint_Disorder_Not_Elsewhere_Classified">Chose Comorb_Other_Joint_Disorder_Not_Elsewhere_Classified:</label>
+<select name="Comorb_Other_Joint_Disorder_Not_Elsewhere_Classified" id="Comorb_Other_Joint_Disorder_Not_Elsewhere_Classified">
+<option value="1">Y</option>
+<option value="0">N</option>
+
+</select>
+<br>
+<label for="Comorb_Encntr_For_Oth_Sp_Exam_W_O_Complaint_Suspected_Or_Reprtd_Dx">Chose Comorb_Encntr_For_Oth_Sp_Exam_W_O_Complaint_Suspected_Or_Reprtd_Dx:</label>
+<select name="Comorb_Encntr_For_Oth_Sp_Exam_W_O_Complaint_Suspected_Or_Reprtd_Dx" id="Comorb_Encntr_For_Oth_Sp_Exam_W_O_Complaint_Suspected_Or_Reprtd_Dx">
+<option value="1">Y</option>
+<option value="0">N</option>
+
+</select>
+<br>
+<label for="Comorb_Long_Term_Current_Drug_Therapy">Chose Comorb_Long_Term_Current_Drug_Therapy:</label>
+<select name="Comorb_Long_Term_Current_Drug_Therapy" id="Comorb_Long_Term_Current_Drug_Therapy">
+<option value="1">Y</option>
+<option value="0">N</option>
+
+</select>
+<br>
+<label for="Comorb_Dorsalgia">Chose Comorb_Dorsalgia:</label>
+<select name="Comorb_Dorsalgia" id="Comorb_Dorsalgia">
+<option value="1">Y</option>
+<option value="0">N</option>
+
+</select>
+<br>
+    
+<label for="Comorb_Personal_History_Of_Other_Diseases_And_Conditions">Chose Comorb_Personal_History_Of_Other_Diseases_And_Conditions:</label>
+<select name="Comorb_Personal_History_Of_Other_Diseases_And_Conditions" id="Comorb_Personal_History_Of_Other_Diseases_And_Conditions">
+<option value="1">Y</option>
+<option value="0">N</option>
+
+</select>
+<br>
+<label for="Comorb_Other_Disorders_Of_Bone_Density_And_Structure">Chose Comorb_Other_Disorders_Of_Bone_Density_And_Structure:</label>
+<select name="Comorb_Other_Disorders_Of_Bone_Density_And_Structure" id="Comorb_Other_Disorders_Of_Bone_Density_And_Structure">
+<option value="1">Y</option>
+<option value="0">N</option>
+
+</select>
+<br>
+<label for="Comorb_Disorders_of_lipoprotein_metabolism_and_other_lipidemias">Chose Comorb_Disorders_of_lipoprotein_metabolism_and_other_lipidemias:</label>
+<select name="Comorb_Disorders_of_lipoprotein_metabolism_and_other_lipidemias" id="Comorb_Disorders_of_lipoprotein_metabolism_and_other_lipidemias">
+<option value="1">Y</option>
+<option value="0">N</option>
+
+</select>
+<br>
+<label for="Comorb_Osteoporosis_without_current_pathological_fracture">Chose Comorb_Osteoporosis_without_current_pathological_fracture:</label>
+<select name="Comorb_Osteoporosis_without_current_pathological_fracture" id="Comorb_Osteoporosis_without_current_pathological_fracture">
+<option value="1">Y</option>
+<option value="0">N</option>
+
+</select>
+<br>
+<label for="Comorb_Personal_history_of_malignant_neoplasm">Chose Comorb_Personal_history_of_malignant_neoplasm:</label>
+<select name="Comorb_Personal_history_of_malignant_neoplasm" id="Comorb_Personal_history_of_malignant_neoplasm">
+<option value="1">Y</option>
+<option value="0">N</option>
+
+</select>
+<br>
+    
+<label for="Comorb_Gastro_esophageal_reflux_disease">Chose Comorb_Gastro_esophageal_reflux_disease:</label>
+<select name="Comorb_Gastro_esophageal_reflux_disease" id="Comorb_Gastro_esophageal_reflux_disease">
+<option value="1">Y</option>
+<option value="0">N</option>
+
+</select>
+<br>
+<label for="Concom_Cholesterol_And_Triglyceride_Regulating_Preparations">Chose Concom_Cholesterol_And_Triglyceride_Regulating_Preparations:</label>
+<select name="Concom_Cholesterol_And_Triglyceride_Regulating_Preparations" id="Concom_Cholesterol_And_Triglyceride_Regulating_Preparations">
+<option value="1">Y</option>
+<option value="0">N</option>
+
+</select>
+<br>
+<label for="Concom_Narcotics">Chose Concom_Narcotics:</label>
+<select name="Concom_Narcotics" id="Concom_Narcotics">
+<option value="1">Y</option>
+<option value="0">N</option>
+
+</select>
+<br>
+<label for="Concom_Systemic_Corticosteroids_Plain">Chose Concom_Systemic_Corticosteroids_Plain:</label>
+<select name="Concom_Systemic_Corticosteroids_Plain" id="Concom_Systemic_Corticosteroids_Plain">
+<option value="1">Y</option>
+<option value="0">N</option>
+
+</select>
+<br>
+<label for="Concom_Anti_Depressants_And_Mood_Stabilisers">Chose Concom_Anti_Depressants_And_Mood_Stabilisers:</label>
+<select name="Concom_Anti_Depressants_And_Mood_Stabilisers" id="Concom_Anti_Depressants_And_Mood_Stabilisers">
+<option value="1">Y</option>
+<option value="0">N</option>
+
+</select>
+<br>
+    
+<label for="Concom_Fluoroquinolones">Chose Concom_Fluoroquinolones:</label>
+<select name="Concom_Fluoroquinolones" id="Concom_Fluoroquinolones">
+<option value="1">Y</option>
+<option value="0">N</option>
+
+</select>
+<br>
+<label for="Concom_Cephalosporins">Chose Concom_Cephalosporins:</label>
+<select name="Concom_Cephalosporins" id="Concom_Cephalosporins">
+<option value="1">Y</option>
+<option value="0">N</option>
+
+</select>
+<br>
+<label for="Concom_Macrolides_And_Similar_Types">Chose Concom_Macrolides_And_Similar_Types:</label>
+<select name="Concom_Macrolides_And_Similar_Types" id="Concom_Macrolides_And_Similar_Types">
+<option value="1">Y</option>
+<option value="0">N</option>
+
+</select>
+<br>
+<label for="Concom_Broad_Spectrum_Penicillins">Chose Concom_Broad_Spectrum_Penicillins:</label>
+<select name="Concom_Broad_Spectrum_Penicillins" id="Concom_Broad_Spectrum_Penicillins">
+<option value="1">Y</option>
+<option value="0">N</option>
+
+</select>
+<br>
+<label for="Concom_Anaesthetics_General">Chose Concom_Anaesthetics_General:</label>
+<select name="Concom_Anaesthetics_General" id="Concom_Anaesthetics_General">
+<option value="1">Y</option>
+<option value="0">N</option>
+
+</select>
+<br>
+    
+<label for="Concom_Viral_Vaccines">Chose Concom_Viral_Vaccines:</label>
+<select name="Concom_Viral_Vaccines" id="Concom_Viral_Vaccines">
+<option value="1">Y</option>
+<option value="0">N</option>
+
+</select>
+<br>
+<label for="Risk_Type_1_Insulin_Dependent_Diabetes">Chose Risk_Type_1_Insulin_Dependent_Diabetes:</label>
+<select name="Risk_Type_1_Insulin_Dependent_Diabetes" id="Risk_Type_1_Insulin_Dependent_Diabetes">
+<option value="1">Y</option>
+<option value="0">N</option>
+
+</select>
+<br>
+<label for="Risk_Osteogenesis_Imperfecta">Chose Risk_Osteogenesis_Imperfecta:</label>
+<select name="Risk_Osteogenesis_Imperfecta" id="Risk_Osteogenesis_Imperfecta">
+<option value="1">Y</option>
+<option value="0">N</option>
+
+</select>
+<br>
+<label for="Risk_Rheumatoid_Arthritis">Chose Risk_Rheumatoid_Arthritis:</label>
+<select name="Risk_Rheumatoid_Arthritis" id="Risk_Rheumatoid_Arthritis">
+<option value="1">Y</option>
+<option value="0">N</option>
+
+</select>
+<br>
+<label for="Risk_Untreated_Chronic_Hyperthyroidism">Chose Risk_Untreated_Chronic_Hyperthyroidism:</label>
+<select name="Risk_Untreated_Chronic_Hyperthyroidism" id="Risk_Untreated_Chronic_Hyperthyroidism">
+<option value="1">Y</option>
+<option value="0">N</option>
+
+</select>
+<br>
+    
+<label for="Risk_Untreated_Chronic_Hypogonadism">Chose Risk_Untreated_Chronic_Hypogonadism:</label>
+<select name="Risk_Untreated_Chronic_Hypogonadism" id="Risk_Untreated_Chronic_Hypogonadism">
+<option value="1">Y</option>
+<option value="0">N</option>
+
+</select>
+<br>
+<label for="Risk_Untreated_Early_Menopause">Chose Risk_Untreated_Early_Menopause:</label>
+<select name="Risk_Untreated_Early_Menopause" id="Risk_Untreated_Early_Menopause">
+<option value="1">Y</option>
+<option value="0">N</option>
+
+</select>
+<br>
+<label for="Risk_Patient_Parent_Fractured_Their_Hip">Chose Risk_Patient_Parent_Fractured_Their_Hip:</label>
+<select name="Risk_Patient_Parent_Fractured_Their_Hip" id="Risk_Patient_Parent_Fractured_Their_Hip">
+<option value="1">Y</option>
+<option value="0">N</option>
+
+</select>
+<br>
+<label for="Risk_Smoking_Tobacco">Chose Risk_Smoking_Tobacco:</label>
+<select name="Risk_Smoking_Tobacco" id="Risk_Smoking_Tobacco">
+<option value="1">Y</option>
+<option value="0">N</option>
+
+</select>
+<br>
+<label for="Risk_Chronic_Malnutrition_Or_Malabsorption">Chose Risk_Chronic_Malnutrition_Or_Malabsorption:</label>
+<select name="Risk_Chronic_Malnutrition_Or_Malabsorption" id="Risk_Chronic_Malnutrition_Or_Malabsorption">
+<option value="1">Y</option>
+<option value="0">N</option>
+
+</select>
+<br>
+    
+<label for="Risk_Chronic_Liver_Disease">Chose Risk_Chronic_Liver_Disease:</label>
+<select name="Risk_Chronic_Liver_Disease" id="Risk_Chronic_Liver_Disease">
+<option value="1">Y</option>
+<option value="0">N</option>
+
+</select>
+<br>
+<label for="Risk_Family_History_Of_Osteoporosis">Chose Risk_Family_History_Of_Osteoporosis:</label>
+<select name="Risk_Family_History_Of_Osteoporosis" id="Risk_Family_History_Of_Osteoporosis">
+<option value="1">Y</option>
+<option value="0">N</option>
+
+</select>
+<br>
+<label for="Risk_Low_Calcium_Intake">Chose Risk_Low_Calcium_Intake:</label>
+<select name="Risk_Low_Calcium_Intake" id="Risk_Low_Calcium_Intake">
+<option value="1">Y</option>
+<option value="0">N</option>
+
+</select>
+<br>
+<label for="Risk_Vitamin_D_Insufficiency">Chose Risk_Vitamin_D_Insufficiency:</label>
+<select name="Risk_Vitamin_D_Insufficiency" id="Risk_Vitamin_D_Insufficiency">
+<option value="1">Y</option>
+<option value="0">N</option>
+
+</select>
+<br>
+<label for="Risk_Poor_Health_Frailty">Chose Risk_Poor_Health_Frailty:</label>
+<select name="Risk_Poor_Health_Frailty" id="Risk_Poor_Health_Frailty">
+<option value="1">Y</option>
+<option value="0">N</option>
+
+</select>
+<br>
+    
+<label for="Risk_Excessive_Thinness">Chose Risk_Excessive_Thinness:</label>
+<select name="Risk_Excessive_Thinness" id="Risk_Excessive_Thinness">
+<option value="1">Y</option>
+<option value="0">N</option>
+
+</select>
+<br>
+<label for="Risk_Hysterectomy_Oophorectomy">Chose Risk_Hysterectomy_Oophorectomy:</label>
+<select name="Risk_Hysterectomy_Oophorectomy" id="Risk_Hysterectomy_Oophorectomy">
+<option value="1">Y</option>
+<option value="0">N</option>
+
+</select>
+<br>
+<label for="Risk_Estrogen_Deficiency">Chose Risk_Estrogen_Deficiency:</label>
+<select name="Risk_Estrogen_Deficiency" id="Risk_Estrogen_Deficiency">
+<option value="1">Y</option>
+<option value="0">N</option>
+
+</select>
+<br>
+<label for="Risk_Immobilization">Chose Risk_Immobilization:</label>
+<select name="Risk_Immobilization" id="Risk_Immobilization">
+<option value="1">Y</option>
+<option value="0">N</option>
+
+</select>
+<br>
+<label for="Risk_Recurring_Falls">Chose Risk_Recurring_Falls:</label>
+<select name="Risk_Recurring_Falls" id="Risk_Recurring_Falls">
+<option value="1">Y</option>
+<option value="0">N</option>
+
+</select>
+<br>
+  
+  
+        <button type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
+    </form>
+
+   <br>
+   <br>
+   {{ prediction_text }}
+
+ </div>
+ <img src="/static/images/Original.svg" style="width: 400px;position: absolute;bottom: 10px;left: 10px;" alt="Company Logo"/>
+
+</body>
+</html>
