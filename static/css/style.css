@@ -22,6 +22,7 @@ body {
 	text-align:center;
 	letter-spacing:1.2px;
 	background: #3B3B3B !important;
+	overflow-y: scroll;
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3E1D6D', endColorstr='#092756',GradientType=1 );
 
 }
